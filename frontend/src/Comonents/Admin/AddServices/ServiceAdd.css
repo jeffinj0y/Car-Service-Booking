@@ -1,0 +1,205 @@
+/* AdminAddService.css */
+
+.admin-add-service {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.admin-add-service h2 {
+  color: #2c3e50;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.admin-add-service h3 {
+  color: #34495e;
+  font-size: 1.3rem;
+  margin: 1.5rem 0 1rem;
+}
+
+.admin-add-service h4 {
+  color: #6a1b9a;
+  font-size: 1.1rem;
+  margin: 1rem 0 0.5rem;
+}
+
+/* Form Elements */
+.admin-add-service input,
+.admin-add-service select,
+.admin-add-service textarea {
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #bdc3c7;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.admin-add-service input:focus,
+.admin-add-service select:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+.admin-add-service button {
+  padding: 0.5rem 1rem;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-right: 0.5rem;
+  margin-bottom: 1rem;
+  transition: background-color 0.2s;
+}
+
+.admin-add-service button:hover {
+  background-color: #2980b9;
+}
+
+/* Service Lists */
+.admin-add-service ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin-top: 0.5rem;
+}
+
+.admin-add-service li {
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  border-left: 3px solid #3498db;
+}
+
+.admin-add-service li strong {
+  color: #2c3e50;
+}
+
+/* Edit Mode Styles */
+.admin-add-service input[type="text"],
+.admin-add-service input[type="number"] {
+  display: inline-block;
+  width: auto;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Button Variations */
+.admin-add-service .edit-btn {
+  background-color: #3498db;
+}
+
+.admin-add-service .delete-btn {
+  background-color: #e74c3c;
+}
+
+.admin-add-service .save-btn {
+  background-color: #2ecc71;
+}
+
+.admin-add-service .cancel-btn {
+  background-color: #95a5a6;
+}
+
+.admin-add-service .edit-btn:hover {
+  background-color: #2980b9;
+}
+
+.admin-add-service .delete-btn:hover {
+  background-color: #c0392b;
+}
+
+.admin-add-service .save-btn:hover {
+  background-color: #27ae60;
+}
+
+.admin-add-service .cancel-btn:hover {
+  background-color: #7f8c8d;
+}
+
+/* Message Styles */
+.admin-add-service .message {
+  padding: 0.75rem;
+  margin: 1rem 0;
+  border-radius: 4px;
+}
+
+.admin-add-service .success-message {
+  color: #27ae60;
+  background-color: #e8f8f0;
+}
+
+.admin-add-service .error-message {
+  color: #e74c3c;
+  background-color: #fde8e8;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .admin-add-service {
+    padding: 15px;
+  }
+
+  .admin-add-service input,
+  .admin-add-service select {
+    max-width: 100%;
+  }
+
+  .admin-add-service li {
+    padding: 0.5rem;
+  }
+}
+
+/* Inline Edit Forms */
+.edit-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.edit-form input {
+  flex: 1;
+  min-width: 120px;
+}
+
+/* Service Item Actions */
+.service-actions {
+  display: inline-flex;
+  gap: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.service-actions button {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+/* Price and Duration Indicators */
+.price-tag {
+  color: #27ae60;
+  font-weight: bold;
+  margin: 0 0.5rem;
+}
+
+.duration-tag {
+  color: #3498db;
+  margin: 0 0.5rem;
+}
+
+/* Description Text */
+.service-desc {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  margin: 0.25rem 0;
+}

@@ -1,0 +1,163 @@
+/* Main container styles */
+.us-login-page {
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Form container */
+.us-login-container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+}
+
+/* Card styling */
+.us-login-card {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Typography */
+.us-login-title {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+}
+
+.us-login-subtitle {
+  color: #34495e;
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+}
+
+/* Form elements */
+.us-login-form input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 1rem;
+}
+
+.us-login-form input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* Buttons */
+.us-login-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 15px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.us-login-btn:hover {
+  background-color: #2980b9;
+}
+
+/* Messages and errors */
+.us-error-message {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin: -5px 0 10px 0;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.us-success-message {
+  color: #2ecc71;
+  font-size: 0.9rem;
+  margin: 10px 0;
+  padding: 8px;
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+
+
+.us-login-link {
+  color: #3498db;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.us-login-link:hover {
+  color: #2980b9;
+  text-decoration: none;
+}
+
+.us-login-footer {
+  color: #333;
+  margin-top: 15px;
+  font-size: 0.9rem;
+}
+ .forgot-password-container {
+                        background: linear-gradient(135deg, #6e8efb, #a777e3);
+                        min-height: 100vh;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                    .forgot-password-form {
+                        background: white;
+                        padding: 5rem;
+                        border-radius: 10px;
+                        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+                        width: 100%;
+                        max-width: 400px;
+                    }
+                    .forgot-password-form h2 {
+                        color: #333;
+                        text-align: center;
+                        margin-bottom: 1.5rem;
+                    }
+                    .forgot-password-form input {
+                        border: 1px solid #ddd;
+                        padding: 0.75rem 1rem;
+                        margin-bottom: 1rem;
+                        border-radius: 5px;
+                        transition: border-color 0.3s;
+                        width: 100%;
+                    }
+                    .forgot-password-form button {
+                        background: #6e8efb;
+                        color: white;
+                        border: none;
+                        padding: 0.75rem;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        font-weight: 600;
+                        transition: background 0.3s;
+                        width: 100%;
+                    }
+                    .forgot-password-form button:hover {
+                        background: #5a7df4;
+                    }
+                    @media (max-width: 576px) {
+                        .forgot-password-form {
+                            width: 90%;
+                            padding: 1.5rem;
+                        }
+                    }

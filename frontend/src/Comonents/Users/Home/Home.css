@@ -1,0 +1,239 @@
+/* Home.css */
+
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #e3f0ff 0%, #b3d8ff 50%, #3498db 100%);
+  color: #222;
+  min-height: 100vh;
+}
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: transparent;
+}
+
+/* Header */
+.header {
+  background: rgba(52, 152, 219, 0.95);
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #333;
+}
+
+.header h1 {
+  color: #000000;
+}
+
+.header nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.header nav a {
+  color: #000000;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.header nav a:hover {
+  color: #00bcd4;
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+  padding: 80px 20px;
+  background: rgba(255,255,255,0.95);
+}
+
+.hero h2 {
+  font-size: 2.5rem;
+  color: #00bcd4;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin: 20px 0;
+}
+
+.book-btn {
+  padding: 10px 24px;
+  background-color: #00bcd4;
+  color: #121212;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 6px;
+}
+
+.book-btn:hover {
+  background-color: #00acc1;
+}
+
+/* Services */
+.services {
+  padding: 40px 20px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.services h3 {
+  font-size: 28px;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+/* Grid layout */
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Individual service cards */
+.service-card {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.service-card h4 {
+  font-size: 20px;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.service-card p {
+  color: #555;
+  font-size: 14px;
+}
+
+/* Login modal overlay */
+.login-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal content */
+.login-prompt {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.login-prompt h4 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #e74c3c;
+}
+
+.login-prompt p {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.prompt-buttons {
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+}
+
+.login-btn,
+.cancel-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.login-btn {
+  background: #3498db;
+  color: #fff;
+}
+
+.login-btn:hover {
+  background: #2980b9;
+}
+
+.cancel-btn {
+  background: #bdc3c7;
+  color: #2c3e50;
+}
+
+.cancel-btn:hover {
+  background: #95a5a6;
+}
+
+
+/* About */
+.about {
+  padding: 60px 20px;
+  background: #f6fbff;
+  text-align: center;
+}
+
+.about h3 {
+  color: #00bcd4;
+  margin-bottom: 20px;
+}
+
+/* Contact */
+.contact {
+  padding: 60px 20px;
+  background: #e3f0ff;
+  text-align: center;
+}
+
+.contact h3 {
+  color: #00bcd4;
+  margin-bottom: 20px;
+}
+
+/* Footer */
+.footer {
+  background: #3498db;
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9rem;
+  border-top: 1px solid #333;
+  color: #fff;
+}
+
+/* Profile Dropdown (optional for user menu) */
+.profile-dropdown {
+  box-shadow: 0 2px 8px rgba(52,152,219,0.15);
+  border-radius: 8px;
+  background: #fff;
+  color: #222;
+}

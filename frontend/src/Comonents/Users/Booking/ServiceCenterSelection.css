@@ -1,0 +1,257 @@
+.service-center-selection {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 30px;
+  align-items: flex-end;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+}
+
+label {
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+select {
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+}
+
+.reset-btn {
+  padding: 10px 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.reset-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.results-count {
+  margin-bottom: 20px;
+  font-style: italic;
+  color: #666;
+}
+
+.service-centers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
+}
+
+.service-center-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.service-center-card:hover {
+  transform: translateY(-5px);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: #91ff00;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.card-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.rating {
+  background-color: #f1c40f;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.contact-info p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.address h3, .services h3 {
+  margin-top: 15px;
+  margin-bottom: 8px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.services ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.services li {
+  margin-bottom: 5px;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #e0e0e0;
+}
+
+.book-btn, .details-btn {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.book-btn {
+  background-color: #3498db;
+  color: white;
+}
+
+.details-btn {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.book-btn:hover {
+  background-color: #2980b9;
+}
+
+.details-btn:hover {
+  background-color: #d0d0d0;
+}
+
+.loading, .error, .no-results {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2rem;
+  color: #666;
+}
+/* Add these styles to your existing CSS */
+
+.service-preview {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.service-preview li {
+  padding: 5px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.expanded-services {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.service-category {
+  margin-bottom: 15px;
+}
+
+.service-category h4 {
+  margin: 10px 0 5px;
+  color: #333;
+  font-size: 1rem;
+}
+
+.subcategory-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.subcategory-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.subcategory-name {
+  font-weight: 500;
+}
+
+.subcategory-price {
+  color: #388e3c;
+  font-weight: bold;
+}
+.subcategory-duration {
+  font-size: 14px;
+  color: #888;
+  margin-left: 8px;
+}
+.view-more-btn, .view-less-btn {
+  background: none;
+  border: none;
+  color: #3498db;
+  cursor: pointer;
+  padding: 5px 0;
+  margin-top: 5px;
+  font-size: 0.9rem;
+}
+
+.view-more-btn:hover, .view-less-btn:hover {
+  text-decoration: underline;
+}
+
+/* Make cards a bit taller to accommodate more content */
+.service-center-card {
+  min-height: 350px;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-body {
+  flex-grow: 1;
+}
+
+.error {
+  color: #e74c3c;
+}
+
+@media (max-width: 768px) {
+  .filters {
+    flex-direction: column;
+  }
+  
+  .service-centers-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,96 @@
+.sc-login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f5f7fc;
+}
+
+.sc-login-box {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(108, 43, 217, 0.15);
+  width: 100%;
+  max-width: 400px;
+}
+
+.sc-login-box h2 {
+  color: #6c2bd9;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.sc-form-group {
+  margin-bottom: 1.25rem;
+}
+
+.sc-form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #4b5563;
+}
+
+.sc-form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.sc-form-group input:focus {
+  outline: none;
+  border-color: #6c2bd9;
+}
+
+.sc-login-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #6c2bd9;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 1rem;
+}
+
+.sc-login-btn:hover {
+  background-color: #5a24c0;
+}
+
+.sc-login-btn:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.sc-error-message {
+  color: #ef4444;
+  background-color: #fee2e2;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.sc-login-footer {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.sc-login-footer a {
+  color: #6c2bd9;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.sc-login-footer a:hover {
+  text-decoration: underline;
+}

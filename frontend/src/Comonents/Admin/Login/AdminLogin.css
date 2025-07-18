@@ -1,0 +1,95 @@
+.admin-login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f5f7fc; /* Matching the admin-container background */
+  font-family: "Poppins", sans-serif;
+}
+
+.admin-login-box {
+  background-color: #ffffff; /* White background instead of dark */
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0px 8px 20px rgba(108, 43, 217, 0.1); /* Purple tint shadow */
+  width: 350px;
+  text-align: center;
+  color: #4b4b4b; /* Dark text matching sidebar items */
+}
+
+.admin-login-box h1 {
+  margin-bottom: 24px;
+  font-size: 28px;
+  color: #6c2bd9; /* Primary purple color */
+}
+
+.admin-login-box input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 18px;
+  border: 1px solid #e5e7eb; /* Light border */
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #4b4b4b;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.admin-login-box input:focus {
+  outline: none;
+  border-color: #6c2bd9; /* Purple focus */
+}
+
+.admin-login-box input::placeholder {
+  color: #aaa;
+}
+
+.admin-login-box button {
+  width: 100%;
+  padding: 12px;
+  background-color: #6c2bd9; /* Primary purple */
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 15px;
+  margin-top: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.admin-login-box button:hover {
+  background-color: #5a24c0; /* Darker purple on hover */
+  transform: translateY(-1px); /* Subtle lift effect */
+}
+
+.create-btn {
+  background-color: #ffffff;
+  color: #6c2bd9;
+  border: 1px solid #6c2bd9;
+  margin-top: 12px;
+}
+
+.create-btn:hover {
+  background-color: #f0e9fc; /* Light purple hover matching sidebar */
+  color: #5a24c0;
+  border-color: #5a24c0;
+}
+
+/* Additional matching elements */
+.login-footer {
+  margin-top: 20px;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.login-footer a {
+  color: #6c2bd9;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.login-footer a:hover {
+  color: #5a24c0;
+  text-decoration: underline;
+}
