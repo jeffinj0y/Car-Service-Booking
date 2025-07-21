@@ -1,17 +1,15 @@
-const Booking = require('../Models/Booking');
-const ServiceSubCategory = require('../Models/ServiceSubCategory');
-const ServiceCenter = require('../Models/serviceCenter');
+const Booking = require('../Models/booking');
+const Razorpay = require('razorpay');
+
+
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET
+});
 
 // Create a new booking
 const createBooking = async (req, res) => {
   try {
-    // Debug log to see what is received
-    console.log('req.body:', req.body);
-    if (!req.body || Object.keys(req.body).length === 0) {
-      return res.status(400).json({ message: 'No form data received. Check that multer middleware is used and fields are sent correctly.' });
-    }
-
-    // Destructure directly from req.body
     const {
       userId,
       userName,
@@ -22,83 +20,47 @@ const createBooking = async (req, res) => {
       vehicleModel,
       vehicleType,
       serviceCenterId,
-      serviceId,
       bookingDate,
       deliveryOption,
-      pickupAddress = '',
-      specialRequests = '',
-      services // may be a JSON string if sent as such
+      totalAmount,
+      totalDuration,
+      pickupstreet,
+      pickupcity,
+      pickupPostalcode,
+      paymentStatus
     } = req.body;
 
-    // If services is a JSON string, parse it
-    let servicesArr = [];
-    if (services) {
-      try {
-        servicesArr = typeof services === 'string' ? JSON.parse(services) : services;
-      } catch (e) {
-        return res.status(400).json({ message: 'Invalid services format' });
-      }
-    }
+    const services = JSON.parse(req.body.services || '[]');
 
-    // Validate required fields
-    if (!userId || !serviceCenterId || (!serviceId && servicesArr.length === 0) || !bookingDate ) {
-      return res.status(400).json({ message: 'Missing required fields' });
-    }
-
-    // If multiple services, handle accordingly (example: just use the first for now)
-    let service, serviceToUseId;
-    if (servicesArr.length > 0) {
-      serviceToUseId = servicesArr[0].subcategoryId || servicesArr[0]._id;
-    } else {
-      serviceToUseId = serviceId;
-    }
-    service = await ServiceSubCategory.findById(serviceToUseId);
-    if (!service) {
-      return res.status(404).json({ message: 'Service not found' });
-    }
-
-    // Validate service center exists
-    const serviceCenter = await ServiceCenter.findById(serviceCenterId);
-    if (!serviceCenter || serviceCenter.status !== 'approved') {
-      return res.status(404).json({ message: 'Service center not available' });
-    }
-
-    // Prepare booking data
-    const bookingData = {
+    const newBooking = new Booking({
+      scheduledDate: bookingDate,
       user: userId,
-      userName,
-      userEmail,
-      userPhone,
-      vehicleNumber: vehicleNumber.toUpperCase(),
-      vehicleCompany,
-      vehicleModel,
-      vehicleType,
       serviceCenter: serviceCenterId,
-      serviceCenterName: serviceCenter.name,
-      service: serviceToUseId,
-      serviceName: service.name,
-      servicePrice: service.price,
-      bookingDate: new Date(bookingDate),
-      deliveryOption,
-      pickupAddress,
-      specialRequests,
-      status: 'pending',
-      paymentStatus: 'pending',
-      services: servicesArr // store all services if needed
-    };
+      vehicle: {
+        licensePlate: vehicleNumber,
+        company: vehicleCompany,
+        model: vehicleModel,
+        vehicleType
+      },
+      services,
+      deliveryOption: req.body.deliveryOption || 'workshop',
+      totalAmount,
+      totalDuration,
+      pickupAddress: deliveryOption === 'pickup' ? {
+        street: pickupstreet,
+        city: pickupcity,
+        postalCode: pickupPostalcode
+      } : undefined,
+      paymentStatus,
+    });
 
-    // Add vehicle image path if uploaded
     if (req.file) {
-      bookingData.vehicleImage = `/uploads/vehicles/${req.file.filename}`;
+      newBooking.vehicleImage = req.file.filename;
     }
 
-    const newBooking = new Booking(bookingData);
     await newBooking.save();
 
-    res.status(201).json({
-      message: 'Booking created successfully',
-      booking: newBooking
-    });
+    res.status(201).json({ message: 'Booking created successfully', booking: newBooking });
   } catch (error) {
     console.error('Error creating booking:', error);
     res.status(500).json({ message: 'Failed to create booking', error: error.message });
@@ -109,10 +71,12 @@ const createBooking = async (req, res) => {
 const getUserBookings = async (req, res) => {
   try {
     const { userId } = req.params;
-    const bookings = await Booking.find({ user: userId })
+
+    const bookings = await Booking.find({ user: req.user.id })
       .sort({ bookingDate: -1 })
-      .populate('serviceCenter', 'name address')
-      .populate('service', 'name price');
+      .populate('services.category services.subcategory')
+      .populate('serviceCenter')
+      .populate('user');
 
     res.status(200).json(bookings);
   } catch (error) {
@@ -147,7 +111,8 @@ const getServiceCenterBookings = async (req, res) => {
 // Update booking status
 const updateBookingStatus = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { bookingId } = req.params;
+
     const { status, cancellationReason } = req.body;
 
     const allowedStatuses = ['confirmed', 'in-progress', 'completed', 'cancelled', 'rejected'];
@@ -161,7 +126,7 @@ const updateBookingStatus = async (req, res) => {
     }
 
     const updatedBooking = await Booking.findByIdAndUpdate(
-      id,
+      bookingId,
       updateData,
       { new: true }
     );
@@ -181,33 +146,116 @@ const updateBookingStatus = async (req, res) => {
 };
 
 // Update payment status
-const updatePaymentStatus = async (req, res) => {
+const userConfirmPayment = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { paymentStatus, amountPaid, paymentMethod, paymentId } = req.body;
+    const { bookingId } = req.params;
+    const { paymentId, paymentMethod, amountPaid } = req.body;
 
-    const updatedBooking = await Booking.findByIdAndUpdate(
-      id,
+    const booking = await Booking.findByIdAndUpdate(
+      bookingId,
       {
-        paymentStatus,
-        amountPaid,
+        paymentStatus: 'paid',
+        paymentId,
         paymentMethod,
-        paymentId
+        amountPaid,
+        updatedAt: Date.now()
       },
       { new: true }
     );
 
-    if (!updatedBooking) {
+    if (!booking) {
       return res.status(404).json({ message: 'Booking not found' });
     }
 
     res.status(200).json({
-      message: 'Payment status updated',
-      booking: updatedBooking
+      message: 'Payment confirmed successfully',
+      booking
     });
   } catch (error) {
-    console.error('Error updating payment status:', error);
-    res.status(500).json({ message: 'Failed to update payment status' });
+    console.error('User payment update error:', error);
+    res.status(500).json({ message: 'Failed to confirm payment' });
+  }
+};
+
+
+// Get booking by ID
+const getBookingById = async (req, res) => {
+  try {
+    const booking = await Booking.findById(req.params.id)
+      .populate('services.subcategory')
+      .populate('user', 'name email phone')
+      .populate('serviceCenter', 'name email');
+
+    if (!booking) {
+      return res.status(404).json({ message: 'Booking not found' });
+    }
+
+    res.json(booking);
+  } catch (err) {
+    console.error("Error fetching booking:", err);
+    res.status(500).json({ message: "Failed to fetch booking" });
+  }
+};
+
+// Request payment for a booking
+const requestPayment = async (req, res) => {
+  try {
+    const { bookingId } = req.params;
+
+    const booking = await Booking.findByIdAndUpdate(
+      bookingId,
+      {
+        paymentStatus: 'requested',
+        paymentRequestDate: new Date()
+      },
+      { new: true }
+    );
+
+    if (!booking) {
+      return res.status(404).json({ message: 'Booking not found' });
+    }
+
+    res.status(200).json({ message: 'Payment request sent', booking });
+  } catch (error) {
+    console.error('Error requesting payment:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Razor pay
+const createRazorpayOrder = async (req, res) => {
+  try {
+    const booking = await Booking.findById(req.params.bookingId);
+    if (!booking) return res.status(404).json({ message: 'Booking not found' });
+
+    console.log("Found booking:", booking._id);
+    console.log("Booking totalAmount:", booking.totalAmount);
+
+    if (!booking.totalAmount || typeof booking.totalAmount !== 'number') {
+      return res.status(400).json({ message: 'Invalid booking amount' });
+    }
+
+    const options = {
+      amount: Math.round(booking.totalAmount * 100), // ₹ to paise
+      currency: "INR",
+      receipt: `receipt_${booking._id}`,
+    };
+
+    console.log("Creating Razorpay order with options:", options);
+
+    const order = await razorpay.orders.create(options);
+
+    res.status(200).json({
+      id: order.id,
+      currency: order.currency,
+      amount: order.amount,
+      bookingId: booking._id,
+      key: process.env.RAZORPAY_KEY_ID,
+    });
+
+  } catch (error) {
+    console.error("Razorpay order error:", JSON.stringify(error, null, 2));
+    res.status(500).json({ message: 'Failed to create Razorpay order', error: error.message || error });
   }
 };
 
@@ -218,5 +266,8 @@ module.exports = {
   getUserBookings,
   getServiceCenterBookings,
   updateBookingStatus,
-  updatePaymentStatus
+  userConfirmPayment,
+  getBookingById,
+  requestPayment,
+  createRazorpayOrder
 };

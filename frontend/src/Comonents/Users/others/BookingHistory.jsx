@@ -29,6 +29,7 @@ export default function BookingHistory() {
   const handleViewBooking = (bookingId) => {
     navigate(`/bookings/${bookingId}`);
   };
+     console.log(bookings);
      
   return (
     <div className="booking-history-container">

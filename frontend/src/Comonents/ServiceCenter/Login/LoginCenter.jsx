@@ -30,12 +30,12 @@ const ServiceCenterLogin = () => {
         'http://localhost:5002/api/service-centers/login',
         formData
       );
-      
+
       // Store center data and redirect
-      localStorage.setItem('serviceCenter', JSON.stringify(response.data.center));
-      localStorage.setItem("token", response.data.authToken);
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('serviceCenter', JSON.stringify(response.data.serviceCenter));
       navigate('/serviceCentreHome');
-      
+
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed. Please try again.');
     } finally {
@@ -48,7 +48,7 @@ const ServiceCenterLogin = () => {
       <div className="sc-login-box">
         <h2>Service Center Login</h2>
         {error && <div className="sc-error-message">{error}</div>}
-        
+
         <form onSubmit={handleSubmit}>
           <div className="sc-form-group">
             <label>Email</label>
@@ -72,8 +72,8 @@ const ServiceCenterLogin = () => {
             />
           </div>
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="sc-login-btn"
             disabled={loading}
           >

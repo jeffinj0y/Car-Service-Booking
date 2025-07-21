@@ -1,30 +1,32 @@
+const jwt = require('jsonwebtoken');
 const ServiceCenter = require('../Models/serviceCenter');
 
 const serviceCenterMiddleware = async (req, res, next) => {
-  try {
-    const serviceCenterId = req.params.serviceCenterId || req.body.serviceCenterId || req.headers['x-service-center-id'];
-    
-    if (!serviceCenterId) {
-      return res.status(401).json({ message: 'Service center identification required' });
-    }
+  const authHeader = req.headers.authorization;
 
-    const serviceCenter = await ServiceCenter.findById(serviceCenterId);
-    
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ message: 'Authorization token required' });
+  }
+
+  const token = authHeader.split(' ')[1];
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const serviceCenter = await ServiceCenter.findById(decoded.id);
+
     if (!serviceCenter) {
       return res.status(404).json({ message: 'Service center not found' });
     }
 
-    // Check if service center is approved
     if (serviceCenter.status !== 'approved') {
-      return res.status(403).json({ message: 'Service center not approved' });
+      return res.status(403).json({ message: 'Service center is not approved' });
     }
 
-    // Attach service center to request for use in controllers
     req.serviceCenter = serviceCenter;
     next();
   } catch (error) {
-    console.error('Service center middleware error:', error);
-    res.status(500).json({ message: 'Service center authentication failed' });
+    console.error('Service center JWT auth error:', error);
+    return res.status(401).json({ message: 'Invalid or expired token' });
   }
 };
 

@@ -11,7 +11,7 @@ export default function UserBooking() {
   const [selectedCenter, setSelectedCenter] = useState(null);
   const [selectedServices, setSelectedServices] = useState([]);
   const [vehicleDetails, setVehicleDetails] = useState({
-    number: '',
+    licensePlate: '',
     company: '',
     model: '',
     type: 'car'

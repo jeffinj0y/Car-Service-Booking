@@ -15,6 +15,7 @@ import ForgotPassword from './Comonents/Users/RegisterLogin/forgotpass';
 import ResetPassword from './Comonents/Users/RegisterLogin/ResetPass';
 
 function App() {
+  // localStorage.clear();
   return (
     
   <BrowserRouter>

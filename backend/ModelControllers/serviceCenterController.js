@@ -4,6 +4,7 @@ const Booking = require('../Models/booking');
 const User = require('../Models/users');
 const path = require('path');
 const fs = require('fs');
+const jwt = require('jsonwebtoken');
 //register service center
 const registerServiceCenter = async (req, res) => {
   try {
@@ -36,34 +37,26 @@ const registerServiceCenter = async (req, res) => {
 
 
 // login
-const serviceCenterLogin = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const center = await ServiceCenter.findOne({ email });
-    if (!center) {
-      return res.status(404).json({ message: "Service center not found" });
-    }
-    if (center.status !== 'approved') {
-  return res.status(403).json({ message: "Your account is not approved: " + center.status });
-}
-    const isMatch = await bcrypt.compare(password, center.password);
-    if (!isMatch) {
-      return res.status(401).json({ message: "Invalid credentials" });
-    }
-    res.status(200).json({ 
-      message: "Login successful",
-      center: {
-        id: center._id,
-        name: center.name,
-        email: center.email
-      }
-    });
-  } catch (error) {
-    console.error("Login error:", error);
-    res.status(500).json({ message: "Server error during login" });
-  }
-};
+const loginServiceCenter = async (req, res) => {
+  const { email, password } = req.body;
+  const center = await ServiceCenter.findOne({ email });
 
+  if (!center || !(await bcrypt.compare(password, center.password))) {
+    return res.status(401).json({ message: 'Invalid credentials' });
+  }
+
+  const token = jwt.sign({ id: center._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+
+  res.json({
+    token,
+    serviceCenter: {
+      id: center._id,
+      name: center.name,
+      email: center.email,
+      status: center.status
+    }
+  });
+};
 
 //get centre
 const getCentre = async (req, res) => {
@@ -219,7 +212,7 @@ const getVehicleImage = (req, res) => {
 
 
 module.exports = { registerServiceCenter, 
-  serviceCenterLogin, 
+  loginServiceCenter, 
   getCenterCount, 
   getCentre, 
   getPendingServiceCenters, 

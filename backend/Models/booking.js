@@ -35,22 +35,6 @@ const bookingSchema = new mongoose.Schema({
   enum: ['pending', 'requested', 'paid'],
   default: 'pending'
 },
-serviceAdditionRequest: {
-  status: {
-    type: String,
-    enum: ['pending', 'accepted', 'rejected', 'none'],
-    default: 'none'
-  },
-  requestedServices: [
-    {
-      category: { type: mongoose.Schema.Types.ObjectId, ref: 'ServiceCategory' },
-      subcategory: { type: mongoose.Schema.Types.ObjectId, ref: 'ServiceSubCategory' },
-      duration: Number,
-      price: Number
-    }
-  ]
-},
-
 paymentRequestDate: Date,
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }

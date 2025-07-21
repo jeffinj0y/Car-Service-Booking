@@ -4,7 +4,7 @@ const serviceCenterController = require("../ModelControllers/serviceCenterContro
 const adminMiddleware=require("../Middleware/adminMiddleware")
 
 router.post("/register", serviceCenterController.registerServiceCenter);
-router.post("/login", serviceCenterController.serviceCenterLogin);
+router.post("/login", serviceCenterController.loginServiceCenter);
 router.get("/Scount", serviceCenterController.getCenterCount);
 router.get("/Sget", serviceCenterController.getCentre);
 router.get("/pending", adminMiddleware, serviceCenterController.getPendingServiceCenters);

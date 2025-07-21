@@ -1,16 +1,16 @@
- import { useEffect, useState } from 'react';
-import { useParams,useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './History.css'
 export default function BookingDetails() {
   const { bookingId } = useParams();
   const [booking, setBooking] = useState(null);
-const nav=useNavigate();
+  const nav = useNavigate();
   useEffect(() => {
     const fetchBooking = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get(`http://localhost:5002/api/bookings/userbook/${bookingId}`, {
+        const res = await axios.get(`http://localhost:5002/api/bookings/${bookingId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -23,12 +23,11 @@ const nav=useNavigate();
 
     fetchBooking();
   }, [bookingId]);
-console.log('Booking ID from params:', bookingId);
 
  const handlePayment = async () => {
   try {
     const token = localStorage.getItem('token');
-    const res = await axios.post(`http://localhost:5002/api/bookings/create-order/${booking._id}`, {}, {
+    const res = await axios.post(`http://localhost:5002/api/bookings/pay/${booking._id}`, {}, {
       headers: { Authorization: `Bearer ${token}` }
     });
 
@@ -45,9 +44,7 @@ console.log('Booking ID from params:', bookingId);
         // Call backend to update payment status
         await axios.patch(`http://localhost:5002/api/bookings/${booking._id}/payment`, {
           paymentStatus: 'paid',
-        //   paymentId: response.razorpay_payment_id,
-        //   paymentMethod: 'Razorpay',
-        //   amountPaid: amount / 100
+          amountPaid: amount / 100
         }, {
           headers: { Authorization: `Bearer ${token}` }
         });
@@ -72,10 +69,7 @@ console.log('Booking ID from params:', bookingId);
     alert("Payment failed. Try again.");
   }
 };
-
-
   if (!booking) return <p>Loading booking details...</p>;
-
   return (
     <div className="booking-details">
       <h2>Booking Details</h2>
@@ -85,21 +79,26 @@ console.log('Booking ID from params:', bookingId);
 
       <h3>Service Details:</h3>
       <ul>
-        {booking.services.map((service, idx) => (
-          <li key={idx}>
-            {service.subcategory.name} - ₹{service.price} ({service.duration} hrs)
-          </li>
-        ))}
+        {Array.isArray(booking.services) && booking.services.length > 0 ? (
+          booking.services.map((service, idx) => (
+            <li key={idx}>
+              {service.subcategory?.name || "Unknown"} - ₹{service.price} ({service.duration} min)
+            </li>
+          ))
+        ) : (
+          <li>No services found.</li>
+        )}
       </ul>
+
 
       {booking.paymentStatus === 'requested' && (
         <button className="payment-btn" onClick={handlePayment}>
           Proceed to Payment
         </button>
       )}
-       <button className="continue-btn" onClick={()=>nav('/')}>
-          Continue Booking
-        </button>
+      <button className="continue-btn" onClick={() => nav('/')}>
+        Continue Booking
+      </button>
     </div>
   );
 }

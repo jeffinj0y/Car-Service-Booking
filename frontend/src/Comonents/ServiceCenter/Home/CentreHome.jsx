@@ -21,10 +21,10 @@ export default function ServiceCenterHome() {
     fetchBookings(centerData.id, activeTab);
   }, [activeTab, navigate]);
 
-  const fetchBookings = async (centerId, status) => {
+  const fetchBookings = async (bookingId, status) => {
     try {
       // Replace with actual API call
-      const response = await fetch(`http://localhost:5002/api/service-centers/${centerId}/bookings?status=${status}`);
+      const response = await fetch(`http://localhost:5002/api/service-centers/${bookingId}/bookings?status=${status}`);
       const data = await response.json();
       setBookings(data.bookings || []);
 
@@ -120,14 +120,13 @@ export default function ServiceCenterHome() {
                     <h3>Booking #{booking._id.slice(-6)}</h3>
                     <p>Customer: {booking.user?.name}</p>
                     <p>Vehicle: {booking.vehicle.company} {booking.vehicle.model}</p>
-                    <p className="service-details">
-
+                    <div className="service-details">
                       {booking.services.map((service, index) => (
                         <div key={index} className="service-item">
                           <p><strong>Service selected:</strong> {service.subcategory?.name}</p>
                         </div>
                       ))}
-                    </p>
+                    </div>
                     <p>License: {booking.vehicle.licensePlate}</p>
                     <p>Date: {new Date(booking.scheduledDate).toLocaleString()}</p>
                     <p>Total Amount: ₹{booking.totalAmount}</p>
