@@ -24,7 +24,7 @@ export default function Adminin() {
     );
     
     if (response.data.success) {
-      localStorage.setItem("token", response.data.authToken);
+      localStorage.setItem("admintoken", response.data.admintoken);
       localStorage.setItem("email", adminemail);
       localStorage.setItem("admin", JSON.stringify(response.data.admin));
       nav("/adminhome");

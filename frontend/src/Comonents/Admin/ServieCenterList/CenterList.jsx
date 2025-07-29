@@ -11,9 +11,9 @@ const AdminServiceCenters = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    const admintoken = localStorage.getItem('admintoken');
+    if (admintoken) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${admintoken}`;
     }
   }, []);
   useEffect(() => {
@@ -41,14 +41,14 @@ const AdminServiceCenters = () => {
 
   const handleApprove = async (id) => {
     try {
-      const token = localStorage.getItem('token'); // Or 'adminToken' if that's the key you used
+      const admintoken = localStorage.getItem('admintoken'); // Or 'adminToken' if that's the key you used
 
       await axios.patch(
         `http://localhost:5002/api/admin/service-centers/approve/${id}`,
         {}, // No request body
         {
           headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${admintoken}`
           }
         }
       );
@@ -65,13 +65,13 @@ const AdminServiceCenters = () => {
 
   const handleReject = async (id) => {
     try {
-      const token = localStorage.getItem('token');
+      const admintoken = localStorage.getItem('admintoken');
       await axios.patch(
         `http://localhost:5002/api/admin/service-centers/reject/${id}`,
         {},
         {
           headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${admintoken}`
           }
         }
       );
@@ -116,9 +116,13 @@ const AdminServiceCenters = () => {
                   ? center.address
                   : `${center.address?.street || ''}, ${center.address?.city || ''},  ${center.address?.district || ''}, ${center.address?.state || ''} ${center.address?.zipCode || ''}`
                 }</td>
-                {center.services.map(service =>
-                  typeof service === 'string' ? service : service.subcategoryName
-                ).join(', ')}
+                <td>
+                  <span>
+                    {center.services.map(service =>
+                      typeof service === 'string' ? service : service.subcategoryName
+                    ).join(', ')}
+                  </span>
+                </td>
                 <td>
                   <span className={`status-badge ${activeTab}`}>
                     {activeTab === 'pending' && <Clock size={16} />}

@@ -25,9 +25,9 @@ const adminLogin = async (req, res) => {
             console.log("password", comparePassword)
 
             if (comparePassword) {
-                const authToken = await jwt.sign({ id: admin._id, role: "admin" }, process.env.JWT_SECRETKEY, { expiresIn: "1d" })
+                const admintoken = await jwt.sign({ id: admin._id, role: "admin" }, process.env.JWT_SECRETKEY, { expiresIn: "1d" })
 
-                res.status(200).json({ success: true, authToken, admin })
+                res.status(200).json({ success: true, admintoken, admin })
 
             }
             else {

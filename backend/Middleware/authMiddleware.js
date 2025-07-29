@@ -3,13 +3,11 @@ const User = require('../Models/users');
 
 const authMiddleware = async (req, res, next) => {
   try {
-    const token = req.header('Authorization')?.replace('Bearer ', '');
-    
-    if (!token) {
+    const authtoken = req.header('Authorization')?.replace('Bearer ', '');
+    if (!authtoken) {
       return res.status(401).json({ message: 'Authentication required' });
     }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(authtoken, process.env.JWT_SECRETK);
     const user = await User.findById(decoded.id);
 
     if (!user) {
@@ -17,7 +15,7 @@ const authMiddleware = async (req, res, next) => {
     }
 
     req.user = user;
-    req.token = token;
+    req.authtoken = authtoken;
     next();
   } catch (error) {
     res.status(401).json({ message: 'Please authenticate', error: error.message });

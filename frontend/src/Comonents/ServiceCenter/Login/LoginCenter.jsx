@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './ServiceCenterLogin.css';
@@ -32,7 +32,7 @@ const ServiceCenterLogin = () => {
       );
 
       // Store center data and redirect
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('centertoken', response.data.centertoken);
       localStorage.setItem('serviceCenter', JSON.stringify(response.data.serviceCenter));
       navigate('/serviceCentreHome');
 

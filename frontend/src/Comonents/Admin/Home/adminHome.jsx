@@ -40,7 +40,7 @@ export default function AdminHome() {
 
   const fetchCenterCount = async () => {
     try {
-      const res = await axios.get("http://localhost:5002/api/service-centers/Scount");
+      const res = await axios.get("http://localhost:5002/api/service-centers/count");
       setServiceCenterCount(res.data.count);
     } catch (err) {
       console.error("Failed to fetch service center count", err);
@@ -51,14 +51,6 @@ export default function AdminHome() {
     console.log('Admin logged out');
     nav("/");
   };
-
-  // const handleStatusChange = (id, newStatus) => {
-  //   setRecentBookings(bookings => 
-  //     bookings.map(booking => 
-  //       booking.id === id ? { ...booking, status: newStatus } : booking
-  //     )
-  //   );
-  // };
 
   return (
     <div className="admin-container">
@@ -129,62 +121,6 @@ export default function AdminHome() {
               <StatCard label="Service Centers" value={serviceCenterCount} icon={<Wrench />} />
               <StatCard label="Active Bookings" icon={<CalendarCheck />} />
             </div>
-
-            {/* <div className="admin-data-table">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold text-gray-800">Recent Bookings</h3>
-            <button className="text-sm text-purple-600 hover:underline">View All</button>
-          </div>
-          <table className="w-full">
-            <thead>
-              <tr>
-                <th>Customer</th>
-                <th>Service</th>
-                <th>Service Center</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {recentBookings.map(booking => (
-                <tr key={booking.id}>
-                  <td>{booking.customer}</td>
-                  <td>{booking.service}</td>
-                  <td>{booking.center}</td>
-                  <td>{booking.date}</td>
-                  <td>
-                    <span className={`status-${booking.status}`}>
-                      {booking.status.replace('-', ' ')}
-                    </span>
-                  </td>
-                  <td>
-                    <div className="flex space-x-2">
-                      {booking.status !== 'completed' && (
-                        <button 
-                          onClick={() => handleStatusChange(booking.id, 'completed')}
-                          className="text-green-500 hover:text-green-700"
-                          title="Mark as completed"
-                        >
-                          <CheckCircle size={16} />
-                        </button>
-                      )}
-                      {booking.status !== 'cancelled' && (
-                        <button 
-                          onClick={() => handleStatusChange(booking.id, 'cancelled')}
-                          className="text-red-500 hover:text-red-700"
-                          title="Cancel booking"
-                        >
-                          <XCircle size={16} />
-                        </button>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div> */}
           </>
         )}
       </div>

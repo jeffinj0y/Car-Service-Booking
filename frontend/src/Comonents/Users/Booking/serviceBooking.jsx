@@ -40,7 +40,7 @@ export default function UserBooking() {
         if (location.state?.selectedCenterId) {
           const center = approvedCenters.find(c => c._id === location.state.selectedCenterId);
           if (center) {
-            setSelectedCenter(center);
+             setSelectedCenter(center);
             setServices(center.services || []);
           }
         }

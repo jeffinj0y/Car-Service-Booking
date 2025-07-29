@@ -43,6 +43,7 @@ export default function BookingHistory() {
           {bookings.map((booking) => (
             <div className="booking-history-card" key={booking._id}>
               <div className="history-info">
+                <p><strong>Center Name:</strong></p>
                 <p><strong>Date:</strong> {new Date(booking.scheduledDate).toLocaleDateString()}</p>
                 <p><strong>Vehicle:</strong> {booking.vehicle.company} {booking.vehicle.model}</p>
                 <p><strong>Total Amount:</strong> ₹{booking.totalAmount}</p>

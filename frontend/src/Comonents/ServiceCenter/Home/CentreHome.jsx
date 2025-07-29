@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ServiceCenterHome.css';
+// import UpdateServicesTab from './UpdateServicesTab';
 
 export default function ServiceCenterHome() {
   const [activeTab, setActiveTab] = useState('pending');
@@ -45,7 +46,7 @@ export default function ServiceCenterHome() {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${localStorage.getItem('centertoken')}`
         },
         body: JSON.stringify({ status: newStatus })
       });
@@ -54,8 +55,6 @@ export default function ServiceCenterHome() {
       console.error('Error updating booking status:', error);
     }
   };
-  console.log('bookings', bookings);
-  console.log('Delivery option:', bookings.deliveryOption);
   return (
     <div className="service-center-container">
       {/* Header */}
@@ -85,12 +84,6 @@ export default function ServiceCenterHome() {
                 Confirmed Orders
               </li>
               <li
-                className={activeTab === 'update-services' ? 'active' : ''}
-                onClick={() => setActiveTab('update-services')}
-              >
-                Request Services Update
-              </li>
-              <li
                 className={activeTab === 'in-progress' ? 'active' : ''}
                 onClick={() => setActiveTab('in-progress')}
               >
@@ -102,6 +95,13 @@ export default function ServiceCenterHome() {
               >
                 Completed Orders
               </li>
+              {/* <li
+                className={activeTab === 'update-services' ? 'active' : ''}
+                onClick={() => setActiveTab('update-services')}
+              >
+                Our Services Update
+              </li> */}
+
             </ul>
           </nav>
         </aside>
@@ -109,7 +109,7 @@ export default function ServiceCenterHome() {
         {/* Main Content */}
         <main className="sc-content">
           <h2>{activeTab.charAt(0).toUpperCase() + activeTab.slice(1).replace('-', ' ')}</h2>
-
+        
           <div className="bookings-list">
             {bookings.length === 0 ? (
               <p>No {activeTab} bookings found</p>
@@ -152,7 +152,6 @@ export default function ServiceCenterHome() {
                       </div>
                     )}
                   </div>
-
                   {activeTab === 'pending' && (
                     <div className="booking-actions">
                       <button
@@ -195,7 +194,7 @@ export default function ServiceCenterHome() {
                             method: 'PATCH',
                             headers: {
                               'Content-Type': 'application/json',
-                              Authorization: `Bearer ${localStorage.getItem('token')}`,
+                              Authorization: `Bearer ${localStorage.getItem('centertoken')}`,
                             }
                           });
                           fetchBookings(serviceCenter.id, activeTab);

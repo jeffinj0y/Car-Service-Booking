@@ -1,8 +1,8 @@
 const User = require("../Models/users")
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
-const jwtSecretKey=process.env.JWT_KEY;
-const nodemailer = require('nodemailer');   
+const jwtSecretKey = process.env.JWT_KEY;
+const nodemailer = require('nodemailer');
 
 //add user
 const addUser = async (req, res) => {
@@ -43,10 +43,8 @@ const loginUser = async (req, res) => {
             console.log("password", comparePassword)
 
             if (comparePassword) {
-                const authToken = await jwt.sign({ id: user._id, role: "user" }, process.env.JWT_SECRET, { expiresIn: "1d" })
-
-                res.status(200).json({ success: true, authToken, user })
-
+                const authtoken = await jwt.sign({ id: user._id, role: "user" }, process.env.JWT_SECRETK, { expiresIn: "1d" })
+                res.status(200).json({ success: true, authtoken, user })
             }
             else {
                 res.status(404).send("⚠️ Password doesn't match")
@@ -81,7 +79,7 @@ const userForgotPassword = async (req, res) => {
             return res.status(404).json({ error: 'User not found', success: false });
         }
 
-        const token = jwt.sign({ id: user._id }, jwtSecretKey, { expiresIn: "1d" });
+        const authtoken = jwt.sign({ id: user._id }, jwtSecretKey, { expiresIn: "1d" });
 
         const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -95,7 +93,7 @@ const userForgotPassword = async (req, res) => {
             from: 'jeffinjoy2003@gmail.com',
             to: email,
             subject: 'Reset Password Link',
-            text: `http://localhost:3000/resetpassword/${user._id}/${token}`
+            text: `http://localhost:3000/resetpassword/${user._id}/${authtoken}`
         };
 
         transporter.sendMail(mailOptions, (error, info) => {
@@ -114,12 +112,12 @@ const userForgotPassword = async (req, res) => {
 // USER RESET PASSSWORD
 const userResetPassword = async (req, res) => {
 
-    const { id, token } = req.params
+    const { id, authtoken } = req.params
     const { password } = req.body
 
-    jwt.verify(token, jwtSecretKey, (err, decoded) => {
+    jwt.verify(authtoken, jwtSecretKey, (err, decoded) => {
         if (err) {
-            return res.json({ Status: "Error with token" })
+            return res.json({ Status: "Error with authtoken" })
         } else {
             bcrypt.hash(password, 10)
                 .then(hash => {
@@ -133,4 +131,4 @@ const userResetPassword = async (req, res) => {
 
 }
 
-module.exports = { addUser, getUser, loginUser, getUserCount,userForgotPassword, userResetPassword };
+module.exports = { addUser, getUser, loginUser, getUserCount, userForgotPassword, userResetPassword };

@@ -55,11 +55,11 @@ const AdminAddService = () => {
 
   const handleAddCategory = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const admintoken = localStorage.getItem('admintoken');
       const res = await axios.post(
         'http://localhost:5002/api/services/categories',
         { name: newCategory, description: newCatDesc },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${admintoken}` } }
       );
       setMessage('Category added!');
       setNewCategory('');
@@ -72,7 +72,7 @@ const AdminAddService = () => {
 
   const handleAddSubcategory = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const admintoken = localStorage.getItem('admintoken');
       await axios.post(
         'http://localhost:5002/api/services/subcategories',
         {
@@ -82,7 +82,7 @@ const AdminAddService = () => {
           price,
           duration: subDuration
         },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${admintoken}` } }
       );
       setMessage('Subcategory added!');
       setSubName('');
@@ -98,9 +98,9 @@ const AdminAddService = () => {
   // Delete Category
   const handleDeleteCategory = async (categoryId) => {
     try {
-      const token = localStorage.getItem('token');
+      const admintoken = localStorage.getItem('admintoken');
       await axios.delete(`http://localhost:5002/api/services/categories/${categoryId}`, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${admintoken}` }
       });
       setCategories(categories.filter(cat => cat._id !== categoryId));
       setMessage('Category deleted!');
@@ -113,9 +113,9 @@ const AdminAddService = () => {
   // Delete Subcategory
   const handleDeleteSubcategory = async (subId, categoryId) => {
     try {
-      const token = localStorage.getItem('token');
+      const admintoken = localStorage.getItem('admintoken');
       await axios.delete(`http://localhost:5002/api/services/subcategories/${subId}`, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${admintoken}` }
       });
       setMessage('Subcategory deleted!');
       fetchSubcategories();
@@ -132,12 +132,12 @@ const AdminAddService = () => {
   };
   const handleUpdateCategory = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const admintoken = localStorage.getItem('admintoken');
       await axios.patch(`http://localhost:5002/api/services/categories/${editCategoryId}`, {
         name: editCategoryName,
         description: editCategoryDesc
       }, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${admintoken}` }
       });
       setMessage('Category updated!');
       setEditCategoryId(null);
@@ -158,7 +158,7 @@ const AdminAddService = () => {
   };
   const handleUpdateSubcategory = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const admintoken = localStorage.getItem('admintoken');
       await axios.patch(`http://localhost:5002/api/services/subcategories/${editSubId}`, {
         name: editSubName,
         description: editSubDesc,
@@ -166,7 +166,7 @@ const AdminAddService = () => {
         duration: editSubDuration,
         categoryId: selectedCategory // Send categoryId as well
       }, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${admintoken}` }
       });
       setMessage('Subcategory updated!');
       setEditSubId(null);

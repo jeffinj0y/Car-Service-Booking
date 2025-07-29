@@ -8,10 +8,10 @@ const serviceCenterMiddleware = async (req, res, next) => {
     return res.status(401).json({ message: 'Authorization token required' });
   }
 
-  const token = authHeader.split(' ')[1];
+  const centertoken = authHeader.split(' ')[1];
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(centertoken, process.env.JWT_SECRET);
     const serviceCenter = await ServiceCenter.findById(decoded.id);
 
     if (!serviceCenter) {

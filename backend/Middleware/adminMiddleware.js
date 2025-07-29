@@ -3,13 +3,13 @@ const Admin = require('../Models/admin');
 
 const adminMiddleware = async (req, res, next) => {
   try {
-    const token = req.header('Authorization')?.replace('Bearer ', '');
+    const admintoken = req.header('Authorization')?.replace('Bearer ', '');
     
-    if (!token) {
+    if (!admintoken) {
       return res.status(401).json({ message: 'No token provided' });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET );
+    const decoded = jwt.verify(admintoken, process.env.JWT_SECRETKEY);
     const admin = await Admin.findById(decoded.id);
 
     if (!admin) {
